@@ -79,7 +79,7 @@ export class FormStateService {
   /**
    * Checks if there are any actions that can be redone.
    * 
-   * @returns - {boolean}
+   * @returns {boolean}
    */
   canRedo(): boolean {
     return this.redoStack.length > 0;

@@ -48,25 +48,20 @@ export class FormComponent implements OnInit {
     });
   }
 
+  /**
+   * - Initializes the form state service with the given form.
+   * - Subscribes to value changes of the form and saves the state using the form state service.
+   */
   ngOnInit(): void {
     this.formStateService.initialize(this.form);
     this.form.valueChanges.subscribe(() => {
-      this.formStateService.saveState(this.form); // Pass the form to saveState
+      this.formStateService.saveState(this.form);
     });
   }
 
-  @HostListener('window:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 'z') {
-      event.preventDefault();
-      this.undo();
-    }
-    if (event.ctrlKey && event.key === 'y') {
-      event.preventDefault();
-      this.redo();
-    }
-  }
-
+  /**
+   * Creates a new request object from the form data and opens the submit dialog.
+   */
   openSubmitDialog(): void {
     const formData = this.form.value;
     const requestObject = {
@@ -83,12 +78,30 @@ export class FormComponent implements OnInit {
     });
   }
 
+  @HostListener('window:keydown', ['$event'])
+  /**
+   * Handles keyboard events. If the user presses 'Ctrl + Z', the undo operation is performed.
+   * If the user presses 'Ctrl + Y', the redo operation is performed.
+   *
+   * @param event - The keyboard event to handle.
+   */
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'z') {
+      event.preventDefault();
+      this.undo();
+    }
+    if (event.ctrlKey && event.key === 'y') {
+      event.preventDefault();
+      this.redo();
+    }
+  }
+
   undo(): void {
-    this.formStateService.undo(this.form); // Pass the form to undo
+    this.formStateService.undo(this.form);
   }
 
   redo(): void {
-    this.formStateService.redo(this.form); // Pass the form to redo
+    this.formStateService.redo(this.form);
   }
 
   canUndo(): boolean {

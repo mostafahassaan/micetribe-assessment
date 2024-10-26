@@ -54,7 +54,7 @@
         <div class="d-flex gap-4 align-items-center">
           <mat-label class="text-end col-4" style="font-size: 1.1rem">Gender</mat-label>
           <mat-radio-group class="d-flex flex-wrap" formControlName="gender">
-            <mat-radio-button *ngFor="let gender of genders" [value]="gender">
+            <mat-radio-button *ngFor="let gender of genders" [value]="gender.key">
               {{ gender.name }}
             </mat-radio-button>
           </mat-radio-group>
@@ -85,7 +85,7 @@
             <div class="d-flex gap-2" style="overflow: auto">
               <mat-form-field class="flex:0.7">
                 <mat-select formControlName="countryCode" placeholder="Code">
-                  <mat-option *ngFor="let code of countryCodes" [value]="code">
+                  <mat-option *ngFor="let code of countryCodes" [value]="code.key">
                     {{ code.name }}
                   </mat-option>
                 </mat-select>

@@ -1,12 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  ReactiveFormsModule,
-  FormsModule,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { FormStateService } from './form-state.service';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -15,9 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
-import {
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
@@ -73,7 +64,7 @@ export class FormComponent implements OnInit {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]], 
+      email: ['', [Validators.required, Validators.email]],
       gender: [''],
       city: ['', [Validators.required]],
       countryCode: ['', Validators.required],
@@ -91,14 +82,14 @@ export class FormComponent implements OnInit {
   openSubmitDialog(): void {
     const formData = this.form.value;
     const requestObject = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      countryCode: formData.countryCode,
-      phoneNumber: formData.phoneNumber,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
       gender: formData.gender,
       city: formData.city,
+      phone_number: formData.countryCode + '' + formData.phoneNumber,
     };
-    
+
     const dialogRef = this.dialog.open(SubmitDialogComponent, {
       data: requestObject,
     });

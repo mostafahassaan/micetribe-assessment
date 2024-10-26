@@ -1,12 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+  FormControl,
+} from '@angular/forms';
 import { FormStateService } from './form-state.service';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { ErrorStateMatcher } from '@angular/material/core';
+import {
+  MatDialog,
+} from '@angular/material/dialog';
+import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
+
+export class CustomErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl): boolean {
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+}
 
 @Component({
   standalone: true,
@@ -26,6 +44,8 @@ import {MatButtonModule} from '@angular/material/button';
   ],
 })
 export class FormComponent implements OnInit {
+  matcher = new CustomErrorStateMatcher();
+  dialog = inject(MatDialog);
   form: FormGroup;
   genders: { name: string; key: string }[] = [
     { name: 'Male', key: 'male' },
@@ -53,10 +73,11 @@ export class FormComponent implements OnInit {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      countryCode: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]], 
       gender: [''],
-      city: [''],
+      city: ['', [Validators.required]],
+      countryCode: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10,}$/)]],
     });
   }
 
@@ -64,6 +85,22 @@ export class FormComponent implements OnInit {
     this.formStateService.initialize(this.form);
     this.form.valueChanges.subscribe(() => {
       this.formStateService.saveState(this.form); // Pass the form to saveState
+    });
+  }
+
+  openSubmitDialog(): void {
+    const formData = this.form.value;
+    const requestObject = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      countryCode: formData.countryCode,
+      phoneNumber: formData.phoneNumber,
+      gender: formData.gender,
+      city: formData.city,
+    };
+    
+    const dialogRef = this.dialog.open(SubmitDialogComponent, {
+      data: requestObject,
     });
   }
 

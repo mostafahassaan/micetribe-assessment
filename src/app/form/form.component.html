@@ -1,11 +1,11 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100">
   <div class="card p-5 shadow-sm rounded" style="width: 40rem">
     <div class="d-flex mb-4 gap-2 justify-content-center">
-      <button mat-fab extended (click)="undo()" [disabled]="!canUndo()">
+      <button mat-fab extended matTooltip="ctrl + z" (click)="undo()" [disabled]="!canUndo()">
         <mat-icon>undo</mat-icon>
         Undo
       </button>
-      <button mat-fab extended color="primary" (click)="redo()" [disabled]="!canRedo()">
+      <button mat-fab extended matTooltip="ctrl + y" color="primary" (click)="redo()" [disabled]="!canRedo()">
         <mat-icon>redo</mat-icon>
         Redo
       </button>

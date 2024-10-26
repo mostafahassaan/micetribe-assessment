@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { FormStateService } from './form-state.service';
 import { CommonModule } from '@angular/common';
@@ -7,15 +7,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
-
-export class CustomErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl): boolean {
-    return !!(control && control.invalid && (control.dirty || control.touched));
-  }
-}
 
 @Component({
   standalone: true,
@@ -32,10 +26,10 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
     MatSelectModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
   ],
 })
 export class FormComponent implements OnInit {
-  matcher = new CustomErrorStateMatcher();
   dialog = inject(MatDialog);
   form: FormGroup;
   genders: { name: string; key: string }[] = [
@@ -77,6 +71,18 @@ export class FormComponent implements OnInit {
     this.form.valueChanges.subscribe(() => {
       this.formStateService.saveState(this.form); // Pass the form to saveState
     });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 'z') {
+      event.preventDefault();
+      this.undo();
+    }
+    if (event.ctrlKey && event.key === 'y') {
+      event.preventDefault();
+      this.redo();
+    }
   }
 
   openSubmitDialog(): void {

@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
-
+import { genders, cities, countryCodes } from './form-data';
 @Component({
   standalone: true,
   selector: 'app-form',
@@ -32,28 +32,10 @@ import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
 export class FormComponent implements OnInit {
   dialog = inject(MatDialog);
   form: FormGroup;
-  genders: { name: string; key: string }[] = [
-    { name: 'Male', key: 'male' },
-    { name: 'Female', key: 'female' },
-    { name: 'Other', key: 'other' },
-    { name: 'Prefer not to say', key: 'nosay' },
-  ];
+  genders = genders;
+  cities = cities;
+  countryCodes = countryCodes;
 
-  cities: { name: string; key: string }[] = [
-    { name: 'Gouna', key: 'gouna' },
-    { name: 'Tallinn', key: 'tallinn' },
-    { name: 'Doha', key: 'doha' },
-    { name: 'Dubai', key: 'dubai' },
-  ];
-
-  countryCodes: { name: string; key: string }[] = [
-    { name: 'Egypt (+20)', key: '+20' },
-    { name: 'Estonia (+372)', key: '+372' },
-    { name: 'Qatar (+974)', key: '+974' },
-    { name: 'UAE (+971)', key: '+971' },
-  ];
-
-  agreed: boolean = false;
   constructor(private fb: FormBuilder, private formStateService: FormStateService) {
     this.form = this.fb.group({
       firstName: ['', Validators.required],

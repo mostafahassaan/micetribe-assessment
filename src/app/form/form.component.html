@@ -1,15 +1,5 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100">
   <div class="card p-5 shadow-sm rounded" style="width: 40rem">
-    <div class="d-flex mb-4 gap-2 justify-content-center">
-      <button mat-fab extended matTooltip="ctrl + z" (click)="undo()" [disabled]="!canUndo()">
-        <mat-icon>undo</mat-icon>
-        Undo
-      </button>
-      <button mat-fab extended matTooltip="ctrl + y" color="primary" (click)="redo()" [disabled]="!canRedo()">
-        <mat-icon>redo</mat-icon>
-        Redo
-      </button>
-    </div>
     <form [formGroup]="form">
       <div class="d-flex flex-column gap-4">
         <div class="d-flex gap-4 align-items-center">
@@ -60,7 +50,7 @@
           </mat-radio-group>
         </div>
 
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-4 align-items-center">
           <mat-label class="text-end col-4" style="font-size: 1.1rem">City</mat-label>
 
           <div class="d-flex flex-column full-width-input">
@@ -106,16 +96,19 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-center">
-          <button
-            mat-fab
-            color="primary"
-            extended
-            type="submit"
-            class="w-50"
-            (click)="openSubmitDialog()"
-            [disabled]="form.invalid"
-          >
+        <div class="d-flex mt-4 gap-4 justify-content-between">
+          <div class="d-flex gap-2 justify-content-center">
+            <button mat-fab extended matTooltip="ctrl + z" (click)="undo()" [disabled]="!canUndo()">
+              <mat-icon>undo</mat-icon>
+              Undo
+            </button>
+            <button mat-fab extended matTooltip="ctrl + y" color="primary" (click)="redo()" [disabled]="!canRedo()">
+              <mat-icon>redo</mat-icon>
+              Redo
+            </button>
+          </div>
+
+          <button class="w-50" mat-fab color="primary" extended type="submit" (click)="openSubmitDialog()" [disabled]="form.invalid">
             <mat-icon>send</mat-icon>
             Submit
           </button>
